@@ -7,10 +7,19 @@
         <el-menu-item index="1" @click="onCollapse"><hamburger :isActive="collapse"></hamburger></el-menu-item>
       </el-menu>
     </span>
+     <!-- 导航菜单 -->
+    <span class="navbar">
+      <el-menu :default-active="activeIndex" class="el-menu-demo" 
+          :background-color="themeColor" text-color="#fff" active-text-color="#ffd04b" mode="horizontal" @select="selectNavBar()">
+        <el-menu-item index="1" @click="$router.push('/')">{{$t("common.home")}}</el-menu-item>
+        <el-menu-item index="2" @click="openWindow('https://gitee.com/liuge1988/kitty/wikis/Home')">{{$t("common.doc")}}</el-menu-item>
+        <el-menu-item index="3" @click="openWindow('https://www.cnblogs.com/xifengxiaoma/')">{{$t("common.blog")}}</el-menu-item>
+      </el-menu>
+    </span>
     <!-- 工具栏 -->
     <span class="toolbar">
       <el-menu class="el-menu-demo" :background-color="themeColor" text-color="#14889A" active-text-color="#14889A" mode="horizontal">
-        
+  
         <el-menu-item index="1">
           <!-- 主题切换 -->
           <theme-picker class="theme-picker" :default="themeColor" 
@@ -18,9 +27,18 @@
           </theme-picker>
         </el-menu-item>
         
-        <el-menu-item index="2">
+        <el-menu-item index="2" v-popover:popover-lang>
+          <!-- 语言切换 -->
+          <li style="color:#fff;" class="fa fa-language fa-lg"></li>
+          <el-popover ref="popover-lang" placement="bottom-start" trigger="click" v-model="langVisible">
+            <div class="lang-item" @click="changeLanguage('zh_cn')">简体中文</div>
+            <div class="lang-item" @click="changeLanguage('en_us')">English</div>
+          </el-popover>
+        </el-menu-item>
+
+        <el-menu-item index="3">
           <!-- 用户信息 -->
-          <span class="user-info"><img :src="user.avatar" />{{user.name}}</span>
+          <span class="user-info"><img src="@/assets/user.png" />{{user.name}}</span>
         </el-menu-item>
       </el-menu>
     </span>
@@ -63,6 +81,12 @@ export default {
     // 切换主题
     onThemeChange: function(themeColor) {
       this.$store.commit('setThemeColor', themeColor)
+    },
+    // 语言切换
+    changeLanguage(lang) {
+      lang === '' ? 'zh_cn' : lang
+      this.$i18n.locale = lang
+      this.langVisible = false
     }
   },
   mounted() {

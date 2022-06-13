@@ -7,10 +7,12 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'font-awesome/css/font-awesome.min.css'
 import store from './store'
+import i18n from './i18n'
 
 
 Vue.use(ElementUI)  // 引入Element
 Vue.use(api)  // 引入API模块
+
 
 
 Vue.prototype.global = global // 挂载全局配置模块
@@ -19,5 +21,6 @@ new Vue({
   el: '#app',
   router,
   store,
+  i18n,
   render: h => h(App)
 })
