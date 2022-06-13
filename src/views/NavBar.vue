@@ -1,7 +1,7 @@
 <template>
 	<div class="menu-bar-container">
     <!-- logo -->
-    <div class="logo" style="background:#14889A" :class="'menu-bar-width'"
+    <div class="logo" :style="{'background':themeColor}" :class="'menu-bar-width'"
         @click="$router.push('/')">
         <img src="@/assets/logo.png"/> <div>Mango</div>
     </div>
@@ -9,7 +9,16 @@
 </template>
 
 <script>
+
+import { mapState } from 'vuex'
 export default {
+    computed: {
+    ...mapState({
+      appName: state=>state.app.appName,
+      themeColor: state=>state.app.themeColor,
+      collapse: state=>state.app.collapse
+    })
+  },
   methods: {
   }
 }
