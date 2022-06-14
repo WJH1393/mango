@@ -6,7 +6,8 @@ export default {
    
     },
     mutations: {
-        setNavTree(state, navTree){  // 设置导航菜单树
+        setNavTree(state, navTree){
+            debugger  // 设置导航菜单树
             state.navTree = navTree;
         }
     },

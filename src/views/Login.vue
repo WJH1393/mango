@@ -62,8 +62,10 @@ export default {
         captcha:this.loginForm.captcha }
       this.$api.login.login(userInfo).then((res) => {  // 调用登录接口
           if(res.msg != null) {
+            alert(res.msg )
             this.$message({ message: res.msg, type: 'error' })
           } else {
+            alert(res.data.token)
             Cookies.set('token', res.data.token) // 放置token到Cookie
             sessionStorage.setItem('user', userInfo.account) // 保存用户到本地会话
             this.$store.commit('menuRouteLoaded', false) // 要求重新加载导航菜单
