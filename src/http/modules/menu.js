@@ -21,7 +21,7 @@ export const batchDelete = (data) => {
     })
 }
 // 查找导航菜单树
-export const findNavTree = () => {
+export const findNavTree = (params) => {
     return axios({
         url: '/menu/findNavTree',
         method: 'get',

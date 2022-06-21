@@ -42,15 +42,16 @@ const router = new Router({
   ]
 })
 
-const originalPush = Router.prototype.push
-Router.prototype.push = function push(location, onResolve, onReject) {
-    if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
-    return originalPush.call(this, location).catch(err => err)
-}
+// const originalPush = Router.prototype.push
+// Router.prototype.push = function push(location, onResolve, onReject) {
+//     if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+//     return originalPush.call(this, location).catch(err => err)
+// }
 
 router.beforeEach((to, from, next) => {
   // 登录界面登录成功之后，会把用户信息保存在会话
   // 存在时间为会话生命周期，页面关闭即失效。
+  
   let userName = sessionStorage.getItem('user')
   if (to.path === '/login') {
     // 如果是访问登录界面，如果用户会话信息存在，代表已登录过，跳转到主页
@@ -79,22 +80,21 @@ function addDynamicMenuAndRoutes(userName, to, from) {
     console.log('动态菜单和路由已经存在.')
     return
   }
-  axios.get('http://localhost:8001/menu/findNavTree')
-  //api.menu.findNavTree({'userName':userName})
+  //axios.get('http://localhost:8001/menu/findNavTree')
+  api.menu.findNavTree({'userName':userName})
   .then(res => {
     // 添加动态路由
-    console.log(res.data.data)
-    let dynamicRoutes = addDynamicRoutes(res.data.data)
+    let dynamicRoutes = addDynamicRoutes(res.data)
     console.log("dongtailuyou:"+dynamicRoutes)
     router.options.routes[0].children = router.options.routes[0].children.concat(dynamicRoutes)
     router.addRoutes(router.options.routes)
     // 保存加载状态
     store.commit('menuRouteLoaded', true)
     // 保存菜单树
-    store.commit('setNavTree', res.data.data)
+    store.commit('setNavTree', res.data)
   }).then(res => {
-    axios.get('http://localhost:8001/user/findPermissions').then(res =>{
-    //api.user.findPermissions().then(res => {
+    //axios.get('http://localhost:8001/user/findPermissions').then(res =>{
+    api.user.findPermissions().then(res => {
       // 保存用户权限标识集合
       store.commit('setPerms', res.data.data)
     })
