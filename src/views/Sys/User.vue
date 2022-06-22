@@ -12,10 +12,13 @@
 			<el-form-item>
 				<kt-button icon="fa fa-plus" :label="$t('action.add')" perms="sys:user:add" type="primary" @click="handleAdd" />
 			</el-form-item>
+			<el-form-item>
+				<kt-button icon="" label="导出"  type="primary" @click="exportUserExcelFile" />
+			</el-form-item>
 		</el-form>
 	</div>
 	<div class="toolbar" style="float:right;padding-top:10px;padding-right:15px;">
-		<el-form :inline="true" :size="size">
+		<!-- <el-form :inline="true" :size="size">
 			<el-form-item>
 				<el-button-group>
 				<el-tooltip content="刷新" placement="top">
@@ -23,13 +26,13 @@
 				</el-tooltip>
 				<el-tooltip content="列显示" placement="top">
 					<el-button icon="fa fa-filter" @click="displayFilterColumnsDialog"></el-button>
-				</el-tooltip>
+				</el-tooltip> 
 				<el-tooltip content="导出" placement="top">
 					<el-button icon="fa fa-file-excel-o" @click="exportUserExcelFile"></el-button>
 				</el-tooltip>
 				</el-button-group>
 			</el-form-item>
-		</el-form>
+		</el-form> -->
 		<!--表格显示列界面-->
 		<table-column-filter-dialog ref="tableColumnFilterDialog" :columns="columns" 
 			@handleFilterColumns="handleFilterColumns"> 
@@ -155,7 +158,7 @@ export default {
 		// 导出Excel用户信息
 		exportUserExcelFile: function () {
 			this.pageRequest.pageSize = 100000
-			this.pageRequest.params = [{name:'name', value:this.filters.name}]
+			this.pageRequest.params = {name:this.filters.name}
 			this.$api.user.exportUserExcelFile(this.pageRequest).then((res) => {
 				this.$alert(res.data, '导出成功', {
 					confirmButtonText: '确定',
@@ -260,7 +263,7 @@ export default {
 		// 处理表格列过滤显示
       	initColumns: function () {
 			this.columns = [
-				{prop:"id", label:"ID", minWidth:50},
+				//{prop:"id", label:"ID", minWidth:50},
 				{prop:"name", label:"用户名", minWidth:120},
 				{prop:"nickName", label:"昵称", minWidth:120},
 				{prop:"deptName", label:"机构", minWidth:120},
