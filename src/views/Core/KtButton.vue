@@ -1,6 +1,6 @@
 <template>
   <el-button :size="size" :type="type" :icon="icon"
-    :loading="loading" :disabled="!hasPerms(perms)" @click="handleClick">
+    :loading="loading"  @click="handleClick">
     {{label}}
   </el-button>
 </template>
